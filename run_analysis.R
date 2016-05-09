@@ -60,4 +60,4 @@ colnames(tidy_data)[1:2]<-c("subject","activity")
 tidy_data$activity<-activity_labels$V2[tidy_data$activity]
 
 # Export the tidyData set 
-write.table(tidy_data, './tidy_data.txt',row.names=TRUE,sep='\t');
+write.table(tidy_data, './tidy_data.txt',row.names=FALSE,sep='\t');
