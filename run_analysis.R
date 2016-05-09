@@ -29,11 +29,6 @@ train_complete<-cbind(train_data[[1]],train_data[[3]],train_data[[2]])
 test_complete<-cbind(test_data[[1]],test_data[[3]],test_data[[2]])
 combined_dataset<-rbind(train_complete,test_complete)
 
-##makes factors and applies activity labels
-#combined_dataset[,2]<-factor(combined_dataset[,2])
-#levels(combined_dataset[,2])<-combined_dataset[,2]
-
-
 ##gets the vars related to mean and std
 vars_to_get_logical<- (grepl("subject",names(combined_dataset)) | grepl("activity",names(combined_dataset)) | grepl("-mean",names(combined_dataset)) | grepl("-std",names(combined_dataset))) & !grepl("-meanFreq",names(combined_dataset))
 
@@ -58,7 +53,11 @@ for (i in 1:length(colnames(complete_dataset)))
 tidy_data<-as.data.frame(aggregate(complete_dataset[,!names(complete_dataset) %in% c("activity","subject")],by=list(complete_dataset$subject,complete_dataset$activity),FUN=mean))
 
 #rename group-by columns to reflect what they are
-colnames(tidy_data)[1:2]<-c("subject","activity") 
+colnames(tidy_data)[1:2]<-c("subject","activity")
+
+#replace activity with descriptive
+
+tidy_data$activity<-activity_labels$V2[tidy_data$activity]
 
 # Export the tidyData set 
 write.table(tidy_data, './tidy_data.txt',row.names=TRUE,sep='\t');
